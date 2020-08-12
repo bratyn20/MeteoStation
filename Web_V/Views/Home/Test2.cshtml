@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "Test2";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Климато-экологический мониторинга</title>
+    <link rel="stylesheet" href="~/Content/new_index.css">
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-base.min.js" type="text/javascript"></script>
+    <style>
+        table {
+            width: 100%; /* Ширина таблицы в процентах */
+        }
+
+        .col1 {
+            width: 3px; /* Ширина ячейки */
+            height:3px;
+        }
+        p {
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <form method="post" action="">
+        <label>Расчёт коэффициента корреляции между</label>
+        <select id="groups" name="s">
+            @* <option value="">Countries</option>*@
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <label>и</label>
+        </select>
+        <select id="groups" name="s2">
+            @* <option value="">Countries</option>*@
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+
+        </select>
+        <label>Группами</label>
+        <input type="submit" value="Отправить" />
+    </form>
+
+    <h2>Коэффициент корреляции Пирсона</h2>
+    <p>Время работы в потоке 18 мс</p>
+    <p>Время расчёта последовательно 23 мс</p>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                @for (var i = 0; i < ViewBag.Pearson.Count; i++)
+                {
+                    <th class="col1" scope="col">@(i + 1)</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (var u = 0; u < ViewBag.Pearson.Count; u++)
+            {
+                <tr>
+                    <th class="col1" scope="row">@(u + 1)</th>
+                    @for (var i = 0; i < ViewBag.Pearson.Count; i++)
+                    {
+                        if (((List<double>)ViewBag.Pearson[u])[i] < 0)
+                        {
+                            if (((List<double>)ViewBag.Pearson[u])[i] > -0.5)
+                            {
+                                ViewBag.q = "#b1abff";
+                            }
+                            else
+                            {
+                                ViewBag.q = "#6e63ff";
+                            }
+                        }
+                        else
+                        {
+                            if (((List<double>)ViewBag.Pearson[u])[i] > 0.5)
+                            {
+                                ViewBag.q = "#ff5e5e";
+                            }
+                            else
+                            {
+                                ViewBag.q = "#ffc9c9";
+                            }
+                        }
+
+                        if((ViewBag.s == u+1 && ViewBag.s2 == i + 1) || (ViewBag.s == i + 1 && ViewBag.s2 == u + 1))
+                        {
+                            ViewBag.q = "#17ad00";
+                        }
+
+                        <td @*class="@ViewBag.q"*@ style="background-color: @ViewBag.q">@(((List<double>)ViewBag.Pearson[u])[i])</td>
+                    }
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+    <h2>Коэффициент корреляции Спирмена</h2>
+    <table class="table table-sm table-reflow">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                @for (var i = 0; i < ViewBag.Spearmen.Count; i++)
+                {
+                    <th scope="col">@(i + 1)</th>
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (var u = 0; u < ViewBag.Spearmen.Count; u++)
+            {
+                <tr>
+                    <th scope="row">@(u + 1)</th>
+                    @for (var i = 0; i < ViewBag.Spearmen.Count; i++)
+                    {
+                        if (((List<double>)ViewBag.Spearmen[u])[i] < 0)
+                        {
+                            if (((List<double>)ViewBag.Spearmen[u])[i] > -0.5)
+                            {
+                                ViewBag.q = "#b1abff";
+                            }
+                            else
+                            {
+                                ViewBag.q = "#6e63ff";
+                            }
+                        }
+                        else
+                        {
+                            if (((List<double>)ViewBag.Spearmen[u])[i] > 0.5)
+                            {
+                                ViewBag.q = "#ff5e5e";
+                            }
+                            else
+                            {
+                                ViewBag.q = "#ffc9c9";
+                            }
+                        }
+
+                        if ((ViewBag.s == u + 1 && ViewBag.s2 == i + 1) || (ViewBag.s == i + 1 && ViewBag.s2 == u + 1))
+                        {
+                            ViewBag.q = "#17ad00";
+                        }
+
+                        <td @*class="@ViewBag.q"*@ style="background-color: @ViewBag.q">@(((List<double>)ViewBag.Spearmen[u])[i])</td>
+                    }
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
+
+</body>
+
+
+</html>
+

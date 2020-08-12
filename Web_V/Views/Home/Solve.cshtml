@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "Расчет";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/Content/css")
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/Content/Index.css">
+@Scripts.Render("~/Scripts/jquery-3.4.1.min.js")
+
+
+
+<script type="text/javascript">
+    localStorage.clear();//очищаю
+    function OnSuccess(data) {
+        var rad = document.getElementById('rr');
+        var file = document.getElementById('file');
+        console.log(rad.value)
+        if (rad.value != "" && file.value != "") {
+            //Если поля заполнены, то передаю в map.js JSON фаил
+            //и перенаправлю на страницу с картой
+            localStorage.setItem('array', JSON.stringify(data));
+            window.location.href = '/Home/Map';
+        }
+        else {
+            var error = $("#error");
+            error.empty(); //очищаем элемент
+            error.append("<tr><td>" + "Заполните все поля" + "</td><td>");
+        }
+    }
+</script>
+
+<div id="error"></div>
+
+<div class="solve">
+    <br />
+    <h4>Для рассчета укажите исходные данные:</h4>
+    <form action="/Home/Upload" enctype="multipart/form-data" data-ajax="true" data-ajax-success="OnSuccess" method="post">
+        @*<div class="radius">
+            <label class="w100">Радиус:</label>
+            <input type="text" name="radius_str" class="w100 border" id="rr" value="" />
+        </div>*@
+        <br />
+        <div class="example-2">
+            <div class="form-group">
+                <input type="file" name="upload" accept="text/plain" id="file" class="input-file">
+                <label for="file" class="btn btn-tertiary js-labelFile">
+                    <i class="icon fa fa-check"></i>
+                    <span class="js-fileName">Загрузить файл</span>
+                </label>
+            </div>
+        </div>
+        <script>
+            console.log("пошел ты")
+            console.log(document.getElementById('rr').value)
+            console.log("пошел ты")
+        </script>
+
+        <h4>Примечание:</h4>
+
+        <div class="info">
+            <p>
+                Должен быть *.txt файл в котором
+                <br>
+                В столбик должны быть указаны типовы температуры станций<br>
+               <br>
+               <br>
+               <br>
+                @*<img src="~/IMG/iii.PNG">*@
+            </p>
+        </div>
+        <div class="submit">
+            <input type="submit" id="submitFF" value="Рассчитать" />
+        </div>
+    </form>
+</div>
+
+<script>
+    (function () {
+        'use strict';
+        $('.input-file').each(function () {
+            var $input = $(this),
+                $label = $input.next('.js-labelFile'),
+                labelVal = $label.html();
+
+            $input.on('change', function (element) {
+                var fileName = '';
+                if (element.target.value) fileName = element.target.value.split('\\').pop();
+                fileName ? $label.addClass('has-file').find('.js-fileName').html(fileName) : $label.removeClass('has-file').html(labelVal);
+            });
+        });
+    })();
+</script>

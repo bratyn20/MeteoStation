@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Test1";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Климато-экологический мониторинга</title>
+    <link rel="stylesheet" href="~/Content/new_index.css">
+    <script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-base.min.js" type="text/javascript"></script>
+    @*<script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-core.min.js"></script>*@
+    @*<script src="https://cdn.anychart.com/releases/8.7.1/js/anychart-scatter.min.js"></script>*@
+    <style>
+        h1,p {
+           color: black;
+        }
+    </style>
+</head>
+<body>
+    @*@foreach (string country in ViewBag.Countries)
+        {
+            <p>@country</p>
+        }*@
+
+
+
+    <form method="post" action="">
+            <label>Выберите станцию</label>
+            <select id="groups" name="y">
+                @* <option value="">Countries</option>*@
+                @for(int i = 0; i< ViewBag.Clusters_new.Count; i++)
+                {
+                    <option value="@i">@(i+1)</option>
+                }
+            </select>
+
+            <select id="groups" name="p">
+                @* <option value="">Countries</option>*@
+                @for (int i = 0; i < ViewBag.Clusters_new.Count; i++)
+                {
+                    <option value="@i">@(i + 1)</option>
+                }
+            </select>
+            <input type="submit" value="Отправить" /> 
+        </form>
+
+    <h3>@ViewBag.y</h3>
+    <div id="container" style="width: 100%; height: 700px;"></div>
+    <h1>Инфомация</h1>
+
+
+
+
+
+
+
+    <p>Уравнение регрессии: @ViewBag.Slope * x + @ViewBag.Intercept</p>
+
+    <script>
+
+        var arr = @ViewBag.Countries;
+        var arr2 = @ViewBag.Countries2;
+        var trend1 = @ViewBag.Trendline1;
+        var trend2 = @ViewBag.Trendline2;
+        var x1 = @ViewBag.x1;
+        var x2 = @ViewBag.x2;
+        var y1 = @ViewBag.y1;
+        var y2 = @ViewBag.y2;
+        
+        //console.log(arr[0][0] + " " + arr[0][1])
+        //for (var i = 0; i < arr.lenght; i++) {
+
+        //}
+
+        //var data_1 = [{}];
+
+        console.log(arr2[arr2.length]);
+
+        var data_1 = [
+            { x: null, value: null }
+        ];
+
+        for (var i = 0; i < arr.length; i++) {
+            data_1[i] = { x: arr2[i], value: arr[i] };
+        }
+        //console.log("123");
+
+        //var data_1 = [
+        //    { x: 1, value: arr[1] },
+        //    { x: arr[1, 0], value: arr[1][1] },
+        //    { x: arr[2], value: 50 },
+        //    { x: arr[3], value: 80 },
+        //    { x: 3.9, value: 74 },
+        //    { x: 4, value: 68 },
+        //    { x: 4, value: 76 },
+        //    { x: 4.1, value: 84 },
+        //    { x: 4.7, value: 93 }
+        //];
+
+        // create data for the second series
+        //var data_2 = [
+        //    { x: arr2[0], value: trend1 },
+        //    { x: arr2[arr.length-1], value: trend2 }
+        //];
+
+        var data_2 = [
+            { x: x1, value: y1 },
+            { x: x2, value: y2 }
+        ];
+
+
+        console.log(trend1);
+        console.log(trend2);
+
+        // create a chart
+        chart = anychart.scatter();
+
+        // create the first series (marker) and set the data
+        var series1 = chart.marker(data_1);
+
+        // create the second series (line) and set the data
+        var series2 = chart.line(data_2);
+
+        // enable major grids
+        chart.xGrid(true);
+        chart.yGrid(true);
+
+        // enable minor grids
+        chart.xMinorGrid(true);
+        chart.yMinorGrid(true);
+
+        // set the chart title
+        //chart.title("График расеения и прямая линия регрессии");
+
+        // set the container id
+        chart.container("container");
+
+        // initiate drawing the chart
+        chart.draw();
+    </script>
+</body>
+
+
+</html>
+

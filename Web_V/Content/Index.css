@@ -1,0 +1,105 @@
+﻿
+* {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.solve {
+    border: 3px solid #0d5aa7;
+    border-radius: 16px;
+    max-width: 700px;
+    height: 750px;
+    margin: 50px auto 0px;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(8, 4, 110, 0.89); /* Параметры тени */
+}
+
+.radius {
+    margin-top: 45px;
+}
+
+.input {
+    border-radius: 5px; /*закругление углов (общее)*/
+    -webkit-border-radius: 5px; /*закругление углов (Google Chrome)*/
+    -moz-border-radius: 5px; /*закругление углов (FireFox)*/
+    -khtml-border-radius: 5px; /*закругление углов (Safari)*/
+    background: #ffffff !important;
+    outline: none; /* удаляет обводку в браузерах хром(желтая) и сафари(синяя)*/
+    height: 24px; /* высота на свое усмотрение*/
+    width: 200px; /* ширина на свое усмотрение*/
+}
+
+
+.info {
+    text-align: justify;
+    margin-left: 50px;
+}
+
+/*Загрузка*/
+.example-2 .btn-tertiary {
+    color: #000000;
+    padding: 0;
+    line-height: 40px;
+    width: 270px;
+    margin: auto;
+    display: block;
+    border: 2px solid #000000;
+    border-radius: 10px;
+}
+
+    .example-2 .btn-tertiary:hover, .example-2 .btn-tertiary:focus {
+        color: #0d5aa7;
+        border-color: #0d5aa7
+    }
+
+.example-2 .input-file {
+    width: .1px;
+    height: .1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1
+}
+
+    .example-2 .input-file + .js-labelFile {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 10px;
+        cursor: pointer
+    }
+
+        .example-2 .input-file + .js-labelFile .icon:before {
+            content: "\f093";
+            color: #0d5aa7;
+            border-color: #0d5aa7
+        }
+
+        .example-2 .input-file + .js-labelFile.has-file .icon:before {
+            content: "\f00c";
+            color: #0d5aa7;
+        }
+
+
+/*Кнопка*/
+input[type=submit] {
+    padding: 5px 15px;
+    background: -moz-linear-gradient( top, #42aaff 0%, #003366);
+    background: -webkit-gradient( linear, left top, left bottom, from(#42aaff), to(#003366));
+    border: 0 none;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: white;
+    margin-right: -500px;
+}
+
+    input[type=submit]:hover {
+        background: -moz-linear-gradient( top, #42aaff 0%, #0d5aa7);
+        background: -webkit-gradient( linear, left top, left bottom, from(#42aaff), to(#0d5aa7));
+    }
+
+    input[type=submit]:active {
+        background: -moz-linear-gradient( top, #003366 0%, #42aaff);
+        background: -webkit-gradient( linear, left top, left bottom, from(#003366), to(#42aaff));
+    }

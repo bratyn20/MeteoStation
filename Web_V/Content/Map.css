@@ -1,0 +1,99 @@
+﻿* {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.input {
+    border-radius: 50px; /*закругление углов (общее)*/
+    -webkit-border-radius: 5px; /*закругление углов (Google Chrome)*/
+    -moz-border-radius: 5px; /*закругление углов (FireFox)*/
+    -khtml-border-radius: 5px; /*закругление углов (Safari)*/
+    background: #ffffff !important;
+    outline: none; /* удаляет обводку в браузерах хром(желтая) и сафари(синяя)*/
+    height: 24px; /* высота на свое усмотрение*/
+    width: 200px; /* ширина на свое усмотрение*/
+}
+
+.nav-bar {
+    width: 100%;
+    background-color: #D1F3EC;
+    text-align: center;
+}
+
+.change {
+    position: absolute;
+    left: 20px;
+    z-index: 3;
+    top: 0;
+}
+
+.download {
+    position: absolute;
+    right: 20px;
+    top: 0;
+}
+
+a {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+    padding: 16px 26px;
+    background: -moz-linear-gradient( top, #42aaff 0%, #003366);
+    background: -webkit-gradient( linear, left top, left bottom, from(#42aaff), to(#003366));
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #003366;
+    -moz-box-shadow: 0px 1px 3px rgba(000,000,000,0.5), inset 0px 0px 1px rgba(255,255,255,0.5);
+    -webkit-box-shadow: 0px 1px 3px rgba(000,000,000,0.5), inset 0px 0px 1px rgba(255,255,255,0.5);
+    box-shadow: 0px 1px 3px rgba(000,000,000,0.5), inset 0px 0px 1px rgba(255,255,255,0.5);
+    text-shadow: 0px -1px 0px rgba(000,000,000,0.7), 0px 1px 0px rgba(255,255,255,0.3);
+    display: inline-block;
+    text-decoration: none;
+}
+
+    a:hover {
+        background: -moz-linear-gradient( top, #42aaff 0%, #0d5aa7);
+        background: -webkit-gradient( linear, left top, left bottom, from(#42aaff), to(#0d5aa7));
+    }
+
+    a:active {
+        background: -moz-linear-gradient( top, #003366 0%, #42aaff);
+        background: -webkit-gradient( linear, left top, left bottom, from(#003366), to(#42aaff));
+    }
+
+.box {
+    border: 3px solid #1221ff;
+    border-radius: 16px;
+    max-width: 700px;
+    height: 425px;
+    margin: 0px auto 0px;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(8, 4, 110, 0.89); /* Параметры тени */
+    position: fixed;
+    z-index: 100;
+    background: #ddfff8;
+    padding: 17px;
+}
+
+input[type=button] {
+    padding: 5px 15px;
+    background: -moz-linear-gradient( top, #42aaff 0%, #003366);
+    background: -webkit-gradient( linear, left top, left bottom, from(#42aaff), to(#003366));
+    border: 0 none;
+    cursor: pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: white;
+    margin-right: -400px;
+}
+
+    input[type=button]:hover {
+        background: -moz-linear-gradient( top, #42aaff 0%, #0d5aa7);
+        background: -webkit-gradient( linear, left top, left bottom, from(#42aaff), to(#0d5aa7));
+    }
+
+    input[type=button]:active {
+        background: -moz-linear-gradient( top, #003366 0%, #42aaff);
+        background: -webkit-gradient( linear, left top, left bottom, from(#003366), to(#42aaff));
+    }
