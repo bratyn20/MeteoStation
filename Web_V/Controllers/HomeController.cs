@@ -35,13 +35,15 @@ namespace Web_V.Controllers
             return View();
         }
 
+        public static string fileName;
+
         [HttpPost]
         public ActionResult Fileupload(HttpPostedFileBase upload)
         {
             if (upload != null)
             {
                 // получаем имя файла
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
+                fileName = System.IO.Path.GetFileName(upload.FileName);
                 // сохраняем файл в папку Files в проекте
                 upload.SaveAs(Server.MapPath("~/Files/" + fileName));
             }
@@ -59,7 +61,7 @@ namespace Web_V.Controllers
             if (upload != null)
             {
                 // получаем имя файла
-                string fileName = System.IO.Path.GetFileName(upload.FileName);
+                fileName = System.IO.Path.GetFileName(upload.FileName);
                 // сохраняем файл в папку Files в проекте
                 upload.SaveAs(Server.MapPath("~/Files/" + fileName));
             }
@@ -70,7 +72,7 @@ namespace Web_V.Controllers
         [HttpGet()]
         public ActionResult Test1()
         {
-            string path = Server.MapPath("~/Files/" + "test-tipovie.txt");
+            string path = Server.MapPath("~/Files/" + fileName);
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
@@ -87,8 +89,10 @@ namespace Web_V.Controllers
                         if (z.IndexOf('e') != -1)
                         {
                             int ind = z.IndexOf('e');
-                            string z1 = z.Remove(z.IndexOf('e'));
-                            double res = Convert.ToDouble(z1, CultureInfo.InvariantCulture) * 2.71828182846;
+                            string z1 = z.Remove(ind);
+                            string z2 = z.Substring(ind + 1);
+                            double sq = Convert.ToDouble(z2, CultureInfo.InvariantCulture);
+                            double res = Convert.ToDouble(z1, CultureInfo.InvariantCulture) * Math.Pow(10, sq);
                             Cluster.Add(res);
                         }
                         else
@@ -120,7 +124,7 @@ namespace Web_V.Controllers
 
             //List<int> arr = new List<int> { 12, 36, 48, 999 };
             Double[] arr = Clusters_new[0].ToArray();
-            Double[] arr2 = Clusters_new[5].ToArray();
+            Double[] arr2 = Clusters_new[1].ToArray();
 
             Statistics s = new Statistics();
             Trendline t = s.CalculateLinearRegression(arr.Select(x => Convert.ToDouble(x)).ToArray(), arr2.Select(x => Convert.ToDouble(x)).ToArray());
@@ -237,7 +241,7 @@ namespace Web_V.Controllers
             //Clusters1.Add(new List<double> { -0.07708, 0.04121, 0.02965, 0.1413, -0.01686, 0.05797, 0.01064, 0.105, 0.02071, 0.1096, 0.03552, 0.2208, -0.05314, -0.01725, -0.004731, -0.1019, 0.04928, 0.06721, 0.1383, 0.01506, 0.283, 0.2186 });
             //Clusters.Add(new List<double> { 3, -88, 77, 0, 5 });
 
-            string path = Server.MapPath("~/Files/" + "test-tipovie.txt");
+            string path = Server.MapPath("~/Files/" + fileName);
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
@@ -254,8 +258,10 @@ namespace Web_V.Controllers
                         if (z.IndexOf('e') != -1)
                         {
                             int ind = z.IndexOf('e');
-                            string z1 = z.Remove(z.IndexOf('e'));
-                            double res = Convert.ToDouble(z1, CultureInfo.InvariantCulture) * 2.71828182846;
+                            string z1 = z.Remove(ind);
+                            string z2 = z.Substring(ind+1);
+                            double sq = Convert.ToDouble(z2, CultureInfo.InvariantCulture);
+                            double res = Convert.ToDouble(z1, CultureInfo.InvariantCulture) * Math.Pow(10, sq);
                             Cluster.Add(res);
                         }
                         else
@@ -395,7 +401,60 @@ namespace Web_V.Controllers
 
             ViewBag.Pearson = pearsonResult;
             ViewBag.Spearmen = spearmenResult;
+
+            List<string> low = new List<string>();
+            List<string> medium = new List<string>();
+            List<string> highmed = new List<string>();
+            List<string> hight = new List<string>();
+
+            string testi = "Слабая связь: ";
+            string testi2 = "Средняя связь: ";
+            string testi3 = "Высокая связь: ";
+            string testi4 = "Очень высокая связь: ";
+
+            Thread.Sleep(1000);
+            for (int i = 0; i < pearsonResult.Count; i++)
+            {
+                int k = pearsonResult.Count - i;
+                for (int y = i; y <= pearsonResult.Count-1; y++)
+                {
+                    if (pearsonResult[i][y] > 0.3 && pearsonResult[i][y] < 0.5)
+                    {
+                        int x = i + 1;
+                        int q = y + 1;
+                        testi += x + " и " + q + ", ";
+                    }
+
+                    if (pearsonResult[i][y] > 0.5 && pearsonResult[i][y] < 0.7)
+                    {
+                        int x = i + 1;
+                        int q = y + 1;
+                        testi2 += x + " и " + q + ", ";
+                    }
+
+                    if (pearsonResult[i][y] > 0.7 && pearsonResult[i][y] < 0.9)
+                    {
+                        int x = i + 1;
+                        int q = y + 1;
+                        testi3 += x + " и " + q + ", ";
+                    }
+
+                    if (pearsonResult[i][y] > 0.9 && pearsonResult[i][y] <= 1)
+                    {
+                        int x = i + 1;
+                        int q = y + 1;
+                        testi4 += x + " и " + q + ", ";
+                    }
+
+                }
+
+            }
             ViewBag.q = "";
+
+            ViewBag.testi = testi;
+            ViewBag.testi2 = testi2;
+            ViewBag.testi3 = testi3;
+            ViewBag.testi4 = testi4;
 
             return View();
         }
