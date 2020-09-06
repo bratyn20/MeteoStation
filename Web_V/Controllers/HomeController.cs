@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
 using System.Collections.Concurrent;
+using System.Web.Routing;
 
 namespace Web_V.Controllers
 {
@@ -36,6 +37,7 @@ namespace Web_V.Controllers
         }
 
         public static string fileName;
+        public static string fileName2;
 
         [HttpPost]
         public ActionResult Fileupload(HttpPostedFileBase upload)
@@ -67,6 +69,30 @@ namespace Web_V.Controllers
             }
             return RedirectToAction("Test2");
         }
+
+        public ActionResult Fileupload3()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Fileupload3(HttpPostedFileBase upload, HttpPostedFileBase upload2)
+        {
+            if (upload != null && upload2 != null )
+            {
+                // получаем имя файла
+                fileName = System.IO.Path.GetFileName(upload.FileName);
+                fileName2 = System.IO.Path.GetFileName(upload2.FileName);
+                // сохраняем файл в папку Files в проекте
+                upload.SaveAs(Server.MapPath("~/Files/" + fileName));
+                upload2.SaveAs(Server.MapPath("~/Files/" + fileName2));
+            }
+
+
+            return RedirectToAction("Test3", "Home");
+        }
+
+
 
         static List<List<Double>> Clusters_new = new List<List<Double>>();
         [HttpGet()]
@@ -548,8 +574,71 @@ static void trr(int iter)
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Test3()
+        {
 
-        public ActionResult Upload(HttpPostedFileBase upload, string radius_str)
+            string path = Server.MapPath("~/Files/" + fileName);
+
+            List<List<Double>> Clusters = new List<List<Double>>();
+            List<Double> Cluster = new List<double>();
+
+            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+
+                    string[] arg = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string z in arg)
+                    {
+                        if (z.IndexOf('e') != -1)
+                        {
+                            int ind = z.IndexOf('e');
+                            string z1 = z.Remove(ind);
+                            string z2 = z.Substring(ind + 1);
+                            double sq = Convert.ToDouble(z2, CultureInfo.InvariantCulture);
+                            double res = Convert.ToDouble(z1, CultureInfo.InvariantCulture) * Math.Pow(10, sq);
+                            Cluster.Add(res);
+                        }
+                        else
+                        {
+                            // double test = Convert.ToDouble(z, CultureInfo.InvariantCulture);
+                            Cluster.Add(Convert.ToDouble(z, CultureInfo.InvariantCulture));
+                        }
+                    }
+                    //Console.WriteLine(line);
+
+                    Clusters.Add(new List<double>(Cluster));
+                    Cluster.Clear();
+                }
+            }
+
+
+
+            List<Double> Cluster_new = new List<double>();
+            for (int i = 0; i < 20; i++)
+            {
+                for (int y = 0; y < Clusters.Count; y++)
+                {
+                    Cluster_new.Add(Clusters[y][i]);
+                }
+
+                Clusters_new.Add(new List<double>(Cluster_new));
+                Cluster_new.Clear();
+            }
+
+
+            List<List<double>> pearsonResult = new List<List<double>>();
+            List<List<double>> spearmenResult = new List<List<double>>();
+
+
+
+
+            return View();
+        }
+
+            public ActionResult Upload(HttpPostedFileBase upload, string radius_str)
         {
             if (radius_str == "" || upload == null)//валидация
             {

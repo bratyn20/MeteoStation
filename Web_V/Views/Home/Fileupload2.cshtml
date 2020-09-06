@@ -1,11 +1,17 @@
 ﻿
 @{
     ViewBag.Title = "Fileupload2";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h3>Выберите файл для загрузки</h3>
+
+
+<span class="badge badge-warning">Данный файл должен содержать типовые температуры кластеров</span>
+<h3>Выберите файл для загрузки <span class="badge badge-secondary">file1</span> </h3>
 @using (Html.BeginForm("Fileupload2", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <input type="file" name="upload" /><br>
+    <br />
     <input type="submit" value="Загрузить" />
 }
+

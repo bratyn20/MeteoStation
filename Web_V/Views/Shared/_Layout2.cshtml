@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Content/Loyaut2.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+    <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+            <a href="~/Home/Index" class="btn btn-primary" type="button">Главная</a>
+            <a href="~/Home/Fileupload2" class="btn btn-sm align-middle btn-outline-secondary" type="button">Корреляция одним файлом</a>
+            <a href="~/Home/Fileupload3" class="btn btn-sm align-middle btn-outline-secondary" type="button">Корреляция во временных рамках</a>
+            <a href="~/Home/Fileupload" class="btn btn-sm align-middle btn-outline-secondary" type="button">Регрессионный анализ</a>
+        </form>
+    </nav>
+
+
+    @RenderBody()
+
+    <div id="footer">
+        <p class="gradient">Работа выполнена совместно с ИМКЭС СО РАН г. Томск, 2020 г.</p>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
