@@ -92,9 +92,32 @@ namespace Web_V.Controllers
             return RedirectToAction("Test3", "Home");
         }
 
+        public ActionResult Fileupload4()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Fileupload4(HttpPostedFileBase upload, HttpPostedFileBase upload2)
+        {
+            if (upload != null && upload2 != null)
+            {
+                // получаем имя файла
+                fileName = System.IO.Path.GetFileName(upload.FileName);
+                fileName2 = System.IO.Path.GetFileName(upload2.FileName);
+                // сохраняем файл в папку Files в проекте
+                upload.SaveAs(Server.MapPath("~/Files/" + fileName));
+                upload2.SaveAs(Server.MapPath("~/Files/" + fileName2));
+            }
+
+
+            return RedirectToAction("Test4", "Home");
+        }
+
 
 
         static List<List<Double>> Clusters_new = new List<List<Double>>();
+        static List<List<Double>> Clusters_new2 = new List<List<Double>>();
         [HttpGet()]
         public ActionResult Test1()
         {
@@ -579,6 +602,7 @@ static void trr(int iter)
         {
 
             string path = Server.MapPath("~/Files/" + fileName);
+            string path2 = Server.MapPath("~/Files/" + fileName2);
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
@@ -617,7 +641,7 @@ static void trr(int iter)
 
 
             List<Double> Cluster_new = new List<double>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < Clusters[0].Count; i++)
             {
                 for (int y = 0; y < Clusters.Count; y++)
                 {
@@ -628,11 +652,79 @@ static void trr(int iter)
                 Cluster_new.Clear();
             }
 
+            Clusters.Clear();
+            using (StreamReader sr = new StreamReader(path2, System.Text.Encoding.Default))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+
+                    string[] arg = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string z in arg)
+                    {
+                        if (z.IndexOf('e') != -1)
+                        {
+                            int ind = z.IndexOf('e');
+                            string z1 = z.Remove(ind);
+                            string z2 = z.Substring(ind + 1);
+                            double sq = Convert.ToDouble(z2, CultureInfo.InvariantCulture);
+                            double res = Convert.ToDouble(z1, CultureInfo.InvariantCulture) * Math.Pow(10, sq);
+                            Cluster.Add(res);
+                        }
+                        else
+                        {
+                            // double test = Convert.ToDouble(z, CultureInfo.InvariantCulture);
+                            Cluster.Add(Convert.ToDouble(z, CultureInfo.InvariantCulture));
+                        }
+                    }
+                    //Console.WriteLine(line);
+
+                    Clusters.Add(new List<double>(Cluster));
+                    Cluster.Clear();
+                }
+            }
+
+            List<Double> Cluster_new2 = new List<double>();
+            for (int i = 0; i < Clusters[0].Count; i++)
+            {
+                for (int y = 0; y < Clusters.Count; y++)
+                {
+                    Cluster_new2.Add(Clusters[y][i]);
+                }
+
+                Clusters_new2.Add(new List<double>(Cluster_new2));
+                Cluster_new2.Clear();
+            }
 
             List<List<double>> pearsonResult = new List<List<double>>();
             List<List<double>> spearmenResult = new List<List<double>>();
 
+            for (int i = 0; i < Clusters_new.Count; i++)
+            {
+                pearsonResult.Add(new List<double>());
+                spearmenResult.Add(new List<double>());
+                Thread myThread = new Thread(new ParameterizedThreadStart(tested));
+                myThread.Start(i);
 
+            }
+
+
+            void tested(object l)
+            {
+                int i = (int)l;
+
+                for (int y = 0; y < Clusters_new2.Count; y++)
+                {
+
+                    ((List<double>)pearsonResult[i]).Add(Math.Round(Correlation.Pearson(Clusters_new[i], Clusters_new2[y]), 2));
+                    ((List<double>)spearmenResult[i]).Add(Math.Round(Correlation.Spearman(Clusters_new[i], Clusters_new2[y]), 2));
+                    //double pearson = Correlation.Pearson(Clusters[0], Clusters[1]);
+                }
+            }
+
+            Thread.Sleep(1000);
+            ViewBag.Pearson = pearsonResult;
+            ViewBag.Spearmen = spearmenResult;
 
 
             return View();

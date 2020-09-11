@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetFile1</title>
+</head>
+<body>
+
+    @using (Html.BeginForm("GetFile1", "Mapan", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @*<span class="badge badge-warning">
+            Данный файл должен содержать типовые температуры кластеров за промежутки времени
+        </span>*@
+        <h3>Выберите файл для загрузки 1 периода@*<span class="badge badge-secondary">file1</span>*@</h3>
+        <input type="file" name="upload" /><br>
+        <h3>Выберите файл для загрузки 2 периода@*<span class="badge badge-secondary">file2</span>*@</h3>
+        <input type="file" name="upload2" /><br>
+        <br />
+        <input type="submit" value="Загрузить" />
+    }
+</body>
+</html>
