@@ -18,6 +18,10 @@ namespace Web_V.Controllers
 
         public static string fileName;
         public static string fileName2;
+        public static Dictionary<string, double> shirmin = new Dictionary<string, double>();
+        public static Dictionary<string, double> shirmax = new Dictionary<string, double>();
+        public static Dictionary<string, double> dolgmin = new Dictionary<string, double>();
+        public static Dictionary<string, double> dolgmax = new Dictionary<string, double>();
         [HttpPost]
         public ActionResult GetFile1(HttpPostedFileBase upload, HttpPostedFileBase upload2)
         {
@@ -38,7 +42,7 @@ namespace Web_V.Controllers
 
         public ActionResult Coordinate()
         {
-            string path = Server.MapPath("~/Files/" + fileName);
+            string path = Server.MapPath("~/Files/" + "Vse n5 08-1 (1955-1985).txt");//+ fileName);
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
@@ -61,17 +65,33 @@ namespace Web_V.Controllers
                 }
             }
 
-            Dictionary<int, double> testmin = new Dictionary<int, double>();
-            Dictionary<int, double> testmax = new Dictionary<int, double>();
-            Dictionary<int, double> test2min = new Dictionary<int, double>();
-            Dictionary<int, double> test2max = new Dictionary<int, double>();
-            MinMax(Clusters, 1, 0, testmin, testmax);
-            MinMax(Clusters, 1, 1, test2min, test2max);
+            //Dictionary<string, double> shirmin = new Dictionary<string, double>();
+            //Dictionary<string, double> shirmax = new Dictionary<string, double>();
+            //Dictionary<string, double> dolgmin = new Dictionary<string, double>();
+            //Dictionary<string, double> dolgmax = new Dictionary<string, double>();
+            MinMax(Clusters, 1, 0, dolgmin, dolgmax);
+            MinMax(Clusters, 1, 1, shirmin, shirmax);
+
+            ViewBag.i = dolgmax.Count;
+            ViewBag.shirmin = shirmin;
+            ViewBag.shirmax = shirmax;
+            ViewBag.dolgmin = dolgmin;
+            ViewBag.dolgmax = dolgmax;
 
             return View();
         }
 
-        public static void MinMax(List<List<double>> file, int k, int mas, Dictionary<int,double> testmin, Dictionary<int, double> testmax)
+        [HttpPost]
+        public ActionResult Coordinate(int i)
+        {
+            ViewBag.shirmin = shirmin;
+            ViewBag.shirmax = shirmax;
+            ViewBag.dolgmin = dolgmin;
+            ViewBag.dolgmax = dolgmax;
+            return View();
+        }
+
+        public static void MinMax(List<List<double>> file, int k, int mas, Dictionary<string,double> testmin, Dictionary<string, double> testmax)
         {
             List<double> one = new List<double>();
             foreach(List<double> i in file)
@@ -85,8 +105,8 @@ namespace Web_V.Controllers
                 return;
             }
 
-            testmin.Add(k, one.Min());
-            testmax.Add(k, one.Max());
+            testmin.Add(k.ToString(), one.Min());
+            testmax.Add(k.ToString(), one.Max());
 
             MinMax(file, k + 1, mas, testmin, testmax);
         }

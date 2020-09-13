@@ -291,6 +291,7 @@
     <Content Include="Views\Home\Test3.cshtml" />
     <Content Include="Views\Home\Fileupload4.cshtml" />
     <Content Include="Views\Mapan\GetFile1.cshtml" />
+    <Content Include="Views\Mapan\Coordinate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
