@@ -29,7 +29,19 @@
             [6, '#ff82f5'], //пурпурный
             [7, '#989898bf'], //серый
             [8, '#000000a6'], //черный
-            [9, '#750000c7'] //тёмной красный
+            [9, '#750000c7'], //тёмной красный
+            [10, '#ff8282'], //красный
+            [11, '#ffde82'], //ЖЁЛТЫЙ
+            [12, '#9bff82'], //зелёный
+            [13, '#82ffee'], //голубой
+            [14, '#8291ff'], //синий
+            [15, '#be82ff'], //фиолетовый
+            [16, '#ff82f5'], //пурпурный
+            [17, '#989898bf'], //серый
+            [18, '#000000a6'], //черный
+            [19, '#750000c7'], //тёмной красный
+            [20, '#000000a6'], //черный
+            [21, '#750000c7'] //тёмной красный
             //['10', ''],
             //['11', ''],
             //['12', ''],
@@ -50,7 +62,7 @@
                 center: [56.29, 84.56],
                 // Уровень масштабирования. Допустимые значения:
                 // от 0 (весь мир) до 19.
-                zoom: 3
+                zoom: 2
             });
 
             //var myGeoObject = new ymaps.GeoObject({
@@ -60,24 +72,24 @@
             //              }
             //    });
 
-            //for (var i = 0; i < 15; i++) {
+            for (var i = 0; i < y; i++) {
                 var myRectangle = new ymaps.GeoObject({
                     geometry: {
                         type: "Rectangle",
                         coordinates: [
-                            [shirmin[y], dolgmin[y]],
-                            [shirmax[y], dolgmax[y]]
+                            [shirmin[i], dolgmin[i]],
+                            [shirmax[i], dolgmax[i]]
                         ]
                     },
                     properties: {
                         hintContent: 'Меня перетаскивать нельзя!',
-                        balloonContent: 'Прямоугольник ' + y
+                        balloonContent: 'Прямоугольник ' + i
                     }
                 },
                     {
                         // Опции.
                         // Цвет и прозрачность заливки.
-                        fillColor: color.get(y),
+                        fillColor: color.get(i),
                         // Дополнительная прозрачность заливки..
                         // Итоговая прозрачность будет не #33(0.2), а 0.1(0.2*0.5).
                         fillOpacity: 0.5,
@@ -92,26 +104,26 @@
                         borderRadius: 6
                     });
 
-                var myRectangle2 = new ymaps.GeoObject({
-                    geometry: {
-                        type: "Rectangle",
-                        coordinates: [
-                            [30.70, 35.30],
-                            [35.80, 40.40]
-                        ]
-                    }
-                });
+                //var myRectangle2 = new ymaps.GeoObject({
+                    //geometry: {
+                        //type: "Rectangle",
+                        //coordinates: [
+                            //[30.70, 35.30],
+                            //[35.80, 40.40]
+                        //]
+                    //}
+                //});
                 myMap.geoObjects.add(myRectangle);
-            //}
+            }
 
             //myMap.geoObjects.add(myGeoObject);
 
-            var myPlacemark = new ymaps.Placemark([25.8, 25.6]);
-            myMap.geoObjects.add(myPlacemark);
+            //var myPlacemark = new ymaps.Placemark([25.8, 25.6]);
+            //myMap.geoObjects.add(myPlacemark);
 
             
             
-            myMap.geoObjects.add(myRectangle2);
+            //myMap.geoObjects.add(myRectangle2);
 
 
         }
@@ -136,7 +148,7 @@
     </form>
 
     <div>
-        <div id="map" style="width: 1200px; height: 580px"></div>
+        <div id="map" style="width: 1330px; height: 580px"></div>
     </div>
 </body>
 </html>

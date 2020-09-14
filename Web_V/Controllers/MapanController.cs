@@ -42,7 +42,7 @@ namespace Web_V.Controllers
 
         public ActionResult Coordinate()
         {
-            string path = Server.MapPath("~/Files/" + "Vse n5 08-1 (1955-1985).txt");//+ fileName);
+            string path = Server.MapPath("~/Files/" + "1031+1.txt");//fileName); //+ "Vse n5 08-1 (1955-1985).txt");//
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
@@ -72,13 +72,13 @@ namespace Web_V.Controllers
             MinMax(Clusters, 1, 0, dolgmin, dolgmax);
             MinMax(Clusters, 1, 1, shirmin, shirmax);
 
-            dolgmin.Add("16", 1);
-            dolgmax.Add("16", 20);
-            shirmin.Add("16", 1);
-            shirmax.Add("16", 10);
+            dolgmin.Add("23", 1);
+            dolgmax.Add("23", 20);
+            shirmin.Add("23", 1);
+            shirmax.Add("23", 10);
 
             ViewBag.i = dolgmax.Count;
-            ViewBag.y = 16;
+            ViewBag.y = 23;
             ViewBag.shirmin = shirmin;
             ViewBag.shirmax = shirmax;
             ViewBag.dolgmin = dolgmin;
