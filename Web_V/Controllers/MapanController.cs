@@ -72,7 +72,13 @@ namespace Web_V.Controllers
             MinMax(Clusters, 1, 0, dolgmin, dolgmax);
             MinMax(Clusters, 1, 1, shirmin, shirmax);
 
+            dolgmin.Add("16", 1);
+            dolgmax.Add("16", 20);
+            shirmin.Add("16", 1);
+            shirmax.Add("16", 10);
+
             ViewBag.i = dolgmax.Count;
+            ViewBag.y = 16;
             ViewBag.shirmin = shirmin;
             ViewBag.shirmax = shirmax;
             ViewBag.dolgmin = dolgmin;
@@ -82,12 +88,14 @@ namespace Web_V.Controllers
         }
 
         [HttpPost]
-        public ActionResult Coordinate(int i)
+        public ActionResult Coordinate(int y)
         {
             ViewBag.shirmin = shirmin;
             ViewBag.shirmax = shirmax;
             ViewBag.dolgmin = dolgmin;
             ViewBag.dolgmax = dolgmax;
+            ViewBag.y = y;
+            ViewBag.i = dolgmax.Count;
             return View();
         }
 

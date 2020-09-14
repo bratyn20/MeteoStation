@@ -16,6 +16,8 @@
         var shirmax =@Html.Raw(Json.Encode(ViewBag.shirmax));
         var dolgmin =@Html.Raw(Json.Encode(ViewBag.dolgmin));
         var dolgmax =@Html.Raw(Json.Encode(ViewBag.dolgmax));
+        var y = @ViewBag.y;
+        console.log(y, shirmin, shirmax, dolgmin, dolgmax);
 
         var color = new Map([
             [0, '#ff8282'], //красный
@@ -58,24 +60,24 @@
             //              }
             //    });
 
-            for (var i = 0; i < 15; i++) {
+            //for (var i = 0; i < 15; i++) {
                 var myRectangle = new ymaps.GeoObject({
                     geometry: {
                         type: "Rectangle",
                         coordinates: [
-                            [shirmin[i], dolgmin[i]],
-                            [shirmax[i], dolgmax[i]]
+                            [shirmin[y], dolgmin[y]],
+                            [shirmax[y], dolgmax[y]]
                         ]
                     },
                     properties: {
                         hintContent: 'Меня перетаскивать нельзя!',
-                        balloonContent: 'Прямоугольник ' + i
+                        balloonContent: 'Прямоугольник ' + y
                     }
                 },
                     {
                         // Опции.
                         // Цвет и прозрачность заливки.
-                        fillColor: color.get(i),
+                        fillColor: color.get(y),
                         // Дополнительная прозрачность заливки..
                         // Итоговая прозрачность будет не #33(0.2), а 0.1(0.2*0.5).
                         fillOpacity: 0.5,
@@ -100,7 +102,7 @@
                     }
                 });
                 myMap.geoObjects.add(myRectangle);
-            }
+            //}
 
             //myMap.geoObjects.add(myGeoObject);
 
@@ -122,11 +124,11 @@
 
     <form method="post" action="">
         <label>Выберите кластер</label>
-        <select id="groups" name="i">
+        <select id="groups" name="y">
             @* <option value="">Countries</option>*@
             @for (int i = 0; i < ViewBag.i; i++)
             {
-                <option value="@i">@(i + 1)</option>
+                <option value="@(i+1)">@(i + 1)</option>
             }
         </select>
 
