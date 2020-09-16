@@ -22,6 +22,16 @@ namespace Web_V.Controllers
         public static Dictionary<string, double> shirmax = new Dictionary<string, double>();
         public static Dictionary<string, double> dolgmin = new Dictionary<string, double>();
         public static Dictionary<string, double> dolgmax = new Dictionary<string, double>();
+        public static Dictionary<string, double> centredolg = new Dictionary<string, double>();
+        public static Dictionary<string, double> centreshir = new Dictionary<string, double>();
+
+        public static Dictionary<string, double> shirmin2 = new Dictionary<string, double>();
+        public static Dictionary<string, double> shirmax2 = new Dictionary<string, double>();
+        public static Dictionary<string, double> dolgmin2 = new Dictionary<string, double>();
+        public static Dictionary<string, double> dolgmax2 = new Dictionary<string, double>();
+        public static Dictionary<string, double> centredolg2 = new Dictionary<string, double>();
+        public static Dictionary<string, double> centreshir2 = new Dictionary<string, double>();
+
         [HttpPost]
         public ActionResult GetFile1(HttpPostedFileBase upload, HttpPostedFileBase upload2)
         {
@@ -43,9 +53,13 @@ namespace Web_V.Controllers
         public ActionResult Coordinate()
         {
             string path = Server.MapPath("~/Files/" + "1031+1.txt");//fileName); //+ "Vse n5 08-1 (1955-1985).txt");//
+            string path2 = Server.MapPath("~/Files/" + "1031+1.txt");
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
+
+            List<List<Double>> Clusters2 = new List<List<Double>>();
+            List<Double> Cluster2 = new List<double>();
 
             using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
             {
@@ -65,12 +79,42 @@ namespace Web_V.Controllers
                 }
             }
 
+
+            using (StreamReader sr = new StreamReader(path2, System.Text.Encoding.Default))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+
+                    string[] arg = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string z in arg)
+                    {
+                        Cluster2.Add(Convert.ToDouble(z, CultureInfo.InvariantCulture));
+                    }
+                    //Console.WriteLine(line);
+
+                    Clusters2.Add(new List<double>(Cluster2));
+                    Cluster2.Clear();
+                }
+            }
+
             //Dictionary<string, double> shirmin = new Dictionary<string, double>();
             //Dictionary<string, double> shirmax = new Dictionary<string, double>();
             //Dictionary<string, double> dolgmin = new Dictionary<string, double>();
             //Dictionary<string, double> dolgmax = new Dictionary<string, double>();
             MinMax(Clusters, 1, 0, dolgmin, dolgmax);
             MinMax(Clusters, 1, 1, shirmin, shirmax);
+
+            centredolg = Centre(dolgmin, dolgmax);
+            centreshir= Centre(shirmin, shirmax);
+
+            MinMax(Clusters2, 1, 0, dolgmin2, dolgmax2);
+            MinMax(Clusters2, 1, 1, shirmin2, shirmax2);
+
+            centredolg2 = Centre(dolgmin2, dolgmax2);
+            centreshir2 = Centre(shirmin2, shirmax2);
+
+            Dictionary<string, Dictionary<string,double>> rsearch = Rsearch(centredolg,centredolg2,centreshir,centreshir2);
 
             dolgmin.Add("23", 1);
             dolgmax.Add("23", 20);
@@ -83,6 +127,7 @@ namespace Web_V.Controllers
             ViewBag.shirmax = shirmax;
             ViewBag.dolgmin = dolgmin;
             ViewBag.dolgmax = dolgmax;
+            ViewBag.rsearch = rsearch;
 
             return View();
         }
@@ -90,11 +135,26 @@ namespace Web_V.Controllers
         [HttpPost]
         public ActionResult Coordinate(int y)
         {
-            ViewBag.shirmin = shirmin;
-            ViewBag.shirmax = shirmax;
-            ViewBag.dolgmin = dolgmin;
-            ViewBag.dolgmax = dolgmax;
-            ViewBag.y = y;
+            if (y == 1)
+            {
+                ViewBag.shirmin = shirmin;
+                ViewBag.shirmax = shirmax;
+                ViewBag.dolgmin = dolgmin;
+                ViewBag.dolgmax = dolgmax;
+                ViewBag.y = dolgmax.Count;
+               
+            }
+
+            if (y == 2)
+            {
+                ViewBag.shirmin = shirmin2;
+                ViewBag.shirmax = shirmax2;
+                ViewBag.dolgmin = dolgmin2;
+                ViewBag.dolgmax = dolgmax2;
+                ViewBag.y = dolgmax2.Count;
+            }
+
+
             ViewBag.i = dolgmax.Count;
             return View();
         }
@@ -117,6 +177,38 @@ namespace Web_V.Controllers
             testmax.Add(k.ToString(), one.Max());
 
             MinMax(file, k + 1, mas, testmin, testmax);
+        }
+
+        public static Dictionary<string,double> Centre(Dictionary<string,double> min , Dictionary<string, double> max)
+        {
+            Dictionary<string, double> rez = new Dictionary<string, double>();
+            if(min.Count == max.Count)
+            for (int i = 1; i <= min.Count; i++)
+            {
+                    rez.Add(i.ToString(),(min[i.ToString()] + max[i.ToString()])/2); 
+            }
+            return rez;
+        }
+
+        public static Dictionary<string, Dictionary<string,double>> Rsearch(Dictionary<string,double> centredolg, Dictionary<string,double> centredolg2, Dictionary<string, double> centreshir, Dictionary<string, double> centreshir2)
+        {
+            Dictionary<string, Dictionary<string,double>> res = new Dictionary<string, Dictionary<string,double>>();
+            Dictionary<string, double> preres = new Dictionary<string, double>(); 
+            for (int i = 1; i <= centredolg.Count; i++)
+            {
+                for (int y = 1; y <= centredolg2.Count; y++)
+                {
+                    double a = Math.Pow((centredolg[i.ToString()] - centredolg2[y.ToString()]), 2);
+                    double b = Math.Pow((centreshir[i.ToString()] - centreshir2[y.ToString()]), 2);
+                    double R = Math.Round(Math.Pow(a + b, 0.5), 2);
+                    preres.Add(y.ToString(),R);
+                }
+
+                res.Add(i.ToString(), new Dictionary<string, double>(preres));
+                preres.Clear();
+            }
+
+            return res;
         }
 
     }
