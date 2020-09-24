@@ -53,7 +53,7 @@ namespace Web_V.Controllers
         public ActionResult Coordinate()
         {
             string path = Server.MapPath("~/Files/" + "1031+1.txt");//fileName); //+ "Vse n5 08-1 (1955-1985).txt");//
-            string path2 = Server.MapPath("~/Files/" + "1031+1.txt");
+            string path2 = Server.MapPath("~/Files/" + "1031+2.txt");
 
             List<List<Double>> Clusters = new List<List<Double>>();
             List<Double> Cluster = new List<double>();
@@ -115,11 +115,23 @@ namespace Web_V.Controllers
             centreshir2 = Centre(shirmin2, shirmax2);
 
             Dictionary<string, Dictionary<string,double>> rsearch = Rsearch(centredolg,centredolg2,centreshir,centreshir2);
+            Dictionary<string, Dictionary<string, double>> rsearchFinal = new Dictionary<string, Dictionary<string, double>>();
 
-            dolgmin.Add("23", 1);
-            dolgmax.Add("23", 20);
-            shirmin.Add("23", 1);
-            shirmax.Add("23", 10);
+          //  dolgmin.Add("23", 1);
+          //  dolgmax.Add("23", 20);
+          //  shirmin.Add("23", 1);
+          //  shirmax.Add("23", 10);
+
+            for (int i = 1; i <= rsearch.Count; i++)
+            {
+                Dictionary<string, double> rest = new Dictionary<string, double>();
+                double test = (rsearch[i.ToString()]).Values.Min();
+                string minkey = rsearch[i.ToString()].First(x => x.Value == (rsearch[i.ToString()]).Values.Min()).Key;
+                rest.Add(minkey, test);
+                rsearchFinal.Add(i.ToString(), new Dictionary<string, double>(rest));
+                rest.Clear();
+                //var q = rsearchFinal["1"].ElementAt(0).Key;
+            }
 
             ViewBag.i = dolgmax.Count;
             ViewBag.y = 23;
@@ -128,6 +140,7 @@ namespace Web_V.Controllers
             ViewBag.dolgmin = dolgmin;
             ViewBag.dolgmax = dolgmax;
             ViewBag.rsearch = rsearch;
+            ViewBag.rsearchFinal = rsearchFinal;
 
             return View();
         }
@@ -156,6 +169,12 @@ namespace Web_V.Controllers
 
 
             ViewBag.i = dolgmax.Count;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Supa(string f, string s)
+        {
             return View();
         }
 

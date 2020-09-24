@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     Layout = null;
 }
 
@@ -136,7 +135,7 @@
             @* <option value="">Countries</option>*@
             @for (int i = 0; i < 2@*ViewBag.i*@; i++)
 {
-<option value="@(i+1)">@(i + 1)</option>
+<option value="@(i+1)">@*@(i + 1)*@1955-1985</option>
 }
         </select>
 
@@ -147,8 +146,53 @@
         <div id="map" style="width: 100%; height: 580px"></div>
     </div>
 
-    <div>
+    <br />
+    <br />
 
+    <span class="badge badge-warning">Таблица связи кластерв за два разных временных периода<br />
+    Значение R, обозначает силу близости кластеров чем значение ближе к нулю тем ближе находятся кластеры.</span>
+    <div>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">1 период</th>
+                    @*@for(int i = 1; i<= (ViewBag.rsearchFinal["1"]).Count; i++)
+                        {
+                            <th scope="col">@i</th>
+                        }*@
+                    <th scope="col">2 период</th>
+                    <th scope="col">R</th>
+                    <th scope="col">ссылка</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int u = 1; u <= (ViewBag.rsearchFinal.Count); u++)
+                {
+                    <tr>
+                        <th>@u</th>
+                        @*@for(int y = 1; y<= (ViewBag.rsearchFinal["1"].Count); y++)
+                            {
+                                <td>
+                                    @((ViewBag.resarchFinal[u.ToString()])[y.ToString()])
+                                </td>
+                            }*@
+                        @foreach (KeyValuePair<string, double> rsq in ViewBag.rsearchFinal[u.ToString()])
+                        {
+                            <td>@rsq.Key</td>
+                            <td>@rsq.Value</td>
+                            <td>
+                                @using (Html.BeginForm("Supa", "Mapan", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="f" value="@u" />
+                                    <input type="hidden" name="s" value="@rsq.Key" />
+                                    <input type="submit" class="btn btn-link" value="Подробнее" />
+                                }
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
     <br />
@@ -157,11 +201,11 @@
         <table class="table table-sm">
             <thead>
                 <tr>
-                <th scope="col">#</th>
-                @for (int i = 1; i <= (ViewBag.rsearch["1"]).Count; i++)
-                {
-                    <th scope="col">@i</th>
-                }
+                    <th scope="col">#</th>
+                    @for (int i = 1; i <= (ViewBag.rsearch["1"]).Count; i++)
+                    {
+                        <th scope="col">@i</th>
+                    }
                 </tr>
             </thead>
             <tbody>
@@ -171,12 +215,12 @@
                         <th>@u</th>
                         @for (int y = 1; y <= (ViewBag.rsearch["1"]).Count; y++)
                         {
-                        <td>
-                            @((ViewBag.rsearch[u.ToString()])[y.ToString()])
-                        </td>
+                            <td>
+                                @((ViewBag.rsearch[u.ToString()])[y.ToString()])
+                            </td>
                         }
                     </tr>
-                    }
+                }
 
             </tbody>
         </table>
