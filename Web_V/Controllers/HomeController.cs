@@ -344,6 +344,8 @@ namespace Web_V.Controllers
             List<List<double>> pearsonResult = new List<List<double>>();
             List<List<double>> spearmenResult = new List<List<double>>();
 
+            List<List<double>> pearsonResult2 = new List<List<double>>();
+            List<List<double>> spearmenResult2 = new List<List<double>>();
             //Stopwatch test1 = new Stopwatch();
             //test1.Start();
             //Thread.Sleep(94);
@@ -395,18 +397,18 @@ namespace Web_V.Controllers
 
             Stopwatch stopwatch2 = new Stopwatch();
             stopwatch2.Start();
-            //for (int i = 0; i < Clusters1.Count; i++)
-            //{
-            //    pearsonResult.Add(new List<double>());
-            //    spearmenResult.Add(new List<double>());
-            //    for (int y = 0; y < Clusters1.Count; y++)
-            //    {
+            for (int i = 0; i < Clusters_new.Count; i++)
+            {
+                pearsonResult2.Add(new List<double>());
+                spearmenResult2.Add(new List<double>());
+                for (int y = 0; y < Clusters_new.Count; y++)
+                {
 
-            //        ((List<double>)pearsonResult[i]).Add(Math.Round(Correlation.Pearson(Clusters1[i], Clusters1[y]), 2));
-            //        ((List<double>)spearmenResult[i]).Add(Math.Round(Correlation.Spearman(Clusters1[i], Clusters1[y]), 2));
-            //        //double pearson = Correlation.Pearson(Clusters[0], Clusters[1]);
-            //    }
-            //}
+                    ((List<double>)pearsonResult2[i]).Add(Math.Round(Correlation.Pearson(Clusters_new[i], Clusters_new[y]), 2));
+                    ((List<double>)spearmenResult2[i]).Add(Math.Round(Correlation.Spearman(Clusters_new[i], Clusters_new[y]), 2));
+                    //double pearson = Correlation.Pearson(Clusters[0], Clusters[1]);
+                }
+            }
             stopwatch2.Stop();
             Console.Error.WriteLine("Sequential loop time in milliseconds: {0}",
                                     stopwatch2.ElapsedMilliseconds);
@@ -424,6 +426,9 @@ namespace Web_V.Controllers
 
             }
 
+            stopwatch3.Stop();
+            Console.Error.WriteLine("Sequential loop time in milliseconds: {0}",
+                                    stopwatch3.ElapsedMilliseconds);
 
             void tested(object l)
             {
@@ -437,9 +442,7 @@ namespace Web_V.Controllers
                     //double pearson = Correlation.Pearson(Clusters[0], Clusters[1]);
                 }
             }
-            stopwatch3.Stop();
-            Console.Error.WriteLine("Sequential loop time in milliseconds: {0}",
-                                    stopwatch3.ElapsedMilliseconds);
+            
 
            // Thread.Sleep(5000);
 
@@ -500,6 +503,8 @@ namespace Web_V.Controllers
             }
             ViewBag.q = "";
 
+            ViewBag.times = stopwatch3.ElapsedMilliseconds;
+            ViewBag.times2 = stopwatch2.ElapsedMilliseconds;
             ViewBag.testi = testi;
             ViewBag.testi2 = testi2;
             ViewBag.testi3 = testi3;

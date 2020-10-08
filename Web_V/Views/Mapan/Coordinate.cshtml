@@ -60,12 +60,6 @@
                 zoom: 2
             });
 
-            //var myGeoObject = new ymaps.GeoObject({
-            //    geometry: {
-            //    type: "Point", // тип геометрии - точка
-            //    coordinates: [55.8, 37.8] // координаты точки
-            //              }
-            //    });
 
             for (var i = 0; i <= y; i++) {
                 var myRectangle = new ymaps.GeoObject({
@@ -77,8 +71,8 @@
                         ]
                     },
                     properties: {
-                        hintContent: 'Меня перетаскивать нельзя!',
-                        balloonContent: 'Прямоугольник ' + i
+                        hintContent: '',
+                        balloonContent: 'Кластер ' + i
                     }
                 },
                     {

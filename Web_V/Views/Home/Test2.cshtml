@@ -59,9 +59,10 @@
         <input type="submit" value="Отправить" />
     </form>
 
-    @*<h2>Коэффициент корреляции Пирсона</h2>
-    <p>Время работы в потоке 18 мс</p>
-    <p>Время расчёта последовательно 23 мс</p>*@
+    @*<h2>Коэффициент корреляции Пирсона</h2>*@
+    <p>Время работы в потоке @ViewBag.times мс</p>
+    <p>Время работы последовательно @ViewBag.times2 мс</p>
+
     <table class="table table-sm">
         <thead>
             <tr>
@@ -109,7 +110,7 @@
                             ViewBag.q = "#17ad00";
                         }
 
-                        <td @*class="@ViewBag.q"*@ style="background-color: @ViewBag.q">@(((List<double>)ViewBag.Pearson[u])[i])</td>
+                        <td style="background-color: @ViewBag.q">@(((List<double>)ViewBag.Pearson[u])[i])</td>
                     }
                 </tr>
             }
