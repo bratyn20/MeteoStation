@@ -128,9 +128,9 @@
         <select id="groups" name="y">
             @* <option value="">Countries</option>*@
             @for (int i = 0; i < 2@*ViewBag.i*@; i++)
-{
-<option value="@(i+1)">@*@(i + 1)*@1955-1985</option>
-}
+        {
+            <option value="@(i+1)">@*@(i + 1)*@1955-1985</option>
+        }
         </select>
 
         <input type="submit" value="Отправить" />
@@ -203,7 +203,7 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int u = 1; u <= ViewBag.rsearch.Count; u++)
+                @for (int u = 1; u <= ViewBag.rsearch.Count-1; u++)
                 {
                     <tr>
                         <th>@u</th>

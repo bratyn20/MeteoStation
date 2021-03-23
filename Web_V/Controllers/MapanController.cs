@@ -103,21 +103,29 @@ namespace Web_V.Controllers
             //Dictionary<string, double> shirmax = new Dictionary<string, double>();
             //Dictionary<string, double> dolgmin = new Dictionary<string, double>();
             //Dictionary<string, double> dolgmax = new Dictionary<string, double>();
-            Task task = Task.Factory.StartNew(() => MinMax(Clusters, 1, 0, dolgmin, dolgmax));
-            Task task2 = Task.Factory.StartNew(() => MinMax(Clusters, 1, 1, shirmin, shirmax));
+            //Task task = Task.Factory.StartNew(() => 
+            MinMax(Clusters, 1, 0, dolgmin, dolgmax);
+            //Task task2 = Task.Factory.StartNew(() => 
+            MinMax(Clusters, 1, 1, shirmin, shirmax);
 
-            Task task3 = task.ContinueWith((t) => centredolg = Centre(dolgmin, dolgmax));
-            Task task4 = task2.ContinueWith((t) => centreshir= Centre(shirmin, shirmax));
+            //Task task3 = task.ContinueWith((t) => 
+            centredolg = Centre(dolgmin, dolgmax);
+            //Task task4 = task2.ContinueWith((t) => 
+            centreshir= Centre(shirmin, shirmax);
 
-            Task task5 = Task.Factory.StartNew(()=> MinMax(Clusters2, 1, 0, dolgmin2, dolgmax2));
-            Task task6 = Task.Factory.StartNew(()=> MinMax(Clusters2, 1, 1, shirmin2, shirmax2));
+            //Task task5 = Task.Factory.StartNew(()=> 
+            MinMax(Clusters2, 1, 0, dolgmin2, dolgmax2);
+            //Task task6 = Task.Factory.StartNew(()=> 
+            MinMax(Clusters2, 1, 1, shirmin2, shirmax2);
 
-            Task task7 = task5.ContinueWith((t) => centredolg2 = Centre(dolgmin2, dolgmax2));
-            Task task8 = task6.ContinueWith((t) => centreshir2 = Centre(shirmin2, shirmax2));
+            //Task task7 = task5.ContinueWith((t) => 
+            centredolg2 = Centre(dolgmin2, dolgmax2);
+            //Task task8 = task6.ContinueWith((t) => 
+            centreshir2 = Centre(shirmin2, shirmax2);
 
             Dictionary<string, Dictionary<string,double>> rsearch = Rsearch(centredolg,centredolg2,centreshir,centreshir2);
             Dictionary<string, Dictionary<string, double>> rsearchFinal = new Dictionary<string, Dictionary<string, double>>();
-            task4.Wait();task3.Wait();task7.Wait();task8.Wait();
+            //task4.Wait();task3.Wait();task7.Wait();task8.Wait();
           //  dolgmin.Add("23", 1);
           //  dolgmax.Add("23", 20);
           //  shirmin.Add("23", 1);
@@ -135,7 +143,7 @@ namespace Web_V.Controllers
             }
 
             ViewBag.i = dolgmax.Count;
-            ViewBag.y = 23;
+            ViewBag.y = 22;
             ViewBag.shirmin = shirmin;
             ViewBag.shirmax = shirmax;
             ViewBag.dolgmin = dolgmin;
@@ -157,6 +165,7 @@ namespace Web_V.Controllers
                 ViewBag.dolgmax = dolgmax;
                 ViewBag.y = dolgmax.Count;
                
+
             }
 
             if (y == 2)
